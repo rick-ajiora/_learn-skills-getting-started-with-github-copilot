@@ -9,6 +9,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 import os
+import copy
 from pathlib import Path
 
 app = FastAPI(title="Mergington High School API",
@@ -76,6 +77,15 @@ activities = {
         "participants": ["charlotte@mergington.edu", "benjamin@mergington.edu"]
     }
 }
+
+# keep a pristine copy for tests to reset state
+BASE_ACTIVITIES = copy.deepcopy(activities)
+
+def reset_activities():
+    """Restore activities to their original data for testing."""
+    global activities
+    activities = copy.deepcopy(BASE_ACTIVITIES)
+
 
 
 @app.get("/")
